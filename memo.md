@@ -159,16 +159,51 @@ Terraform にもモジュール化の仕組みがある
 CLI操作
 
 パラメータストアに保存
+
+```bash
 $ aws ssm put-parameter --name 'plain_name' --value 'plain value' --type String
+```
 
 パラメータストアを参照
+
+```bash
 $ aws ssm get-parameter --output text --name 'plain_name' --query Parameter.Value
+```
 
 パラメータストアを更新
+
+```bash
 $ aws ssm put-parameter --name 'plain_name' --type String --value 'modified value' --overwrite
+```
 
 パラメータストアを暗号化して保存
+
+```bash
 $ aws ssm put-parameter --name 'encryption_name' --value 'encryption value' --type SecureString
+```
 
 パラメータストアから暗号化されたものを参照
+```bash
 $ aws ssm get-parameter --output text --query Parameter.Value --name 'encryption_name' --with-decryption
+```
+
+## ECR
+
+### Docker イメージの push
+
+1. Docker クライアントを認証する
+
+```bash
+$ aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.<region>.amazonaws.com
+```
+1. イメージ名のレジストリECRにして、適当なDockerfileをビルドする
+
+```bash
+$ docker build -t XXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com/example:latest .
+```
+1. Docker イメージを push する
+
+```bash
+$ docker push XXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com/example:latest
+```
+

@@ -22,3 +22,14 @@ variable "s3_alb_log_bucket_name" {
   type        = string
   description = "ALBアクセスログ用バケット名"
 }
+
+variable "github_owner" {
+  type        = string
+  description = "GitHubオーナー"
+}
+
+
+variable "github_repo_name" {
+  type        = string
+  description = "GitHubリポジトリ名"
+}

@@ -1,0 +1,5 @@
+FROM ubuntu:latest
+
+WORKDIR /var/www/html
+
+RUN echo 'sample!'

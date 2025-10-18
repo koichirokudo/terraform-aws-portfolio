@@ -13,17 +13,17 @@ terraform {
 }
 
 variable "name" {
-  type = string
+  type        = string
   description = "IAMロールとIAMポリシーの名前"
 }
 
 variable "policy" {
-  type = string
+  type        = string
   description = "ポリシードキュメント"
 }
 
 variable "identifier" {
-  type = string
+  type        = string
   description = "IAMロールに関連付けるAWSサービス識別子"
 }
 
@@ -48,7 +48,7 @@ data "aws_iam_policy_document" "assume_role" {
     # 「誰が」特定の操作を行うことができるかを指定する
     # var.identifier で指定されたものに関連付けができるようにしている
     principals {
-      type = "Service"
+      type        = "Service"
       identifiers = [var.identifier]
     }
   }
@@ -56,20 +56,20 @@ data "aws_iam_policy_document" "assume_role" {
 
 # IAM ロール: 信頼ポリシーとロール名を指定する
 resource "aws_iam_role" "default" {
-  name = var.name
+  name               = var.name
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
 # IAM ポリシー: ポリシー名とポリシードキュメントを保持するリソース
 resource "aws_iam_policy" "default" {
-  name = var.name
+  name   = var.name
   policy = var.policy
 }
 
 # IAM ポリシーの関連付け: IAM ロールに IAM ポリシーを関連付ける
 # IAM ポリシーとIAM ロールは関連付けないと機能しないため注意
 resource "aws_iam_role_policy_attachment" "default" {
-  role = aws_iam_role.default.name
+  role       = aws_iam_role.default.name
   policy_arn = aws_iam_policy.default.arn
 }
 
